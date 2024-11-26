@@ -1,5 +1,3 @@
-
-
 import requests
 import json
 import random
@@ -12,91 +10,20 @@ import base64
 import time
 
 from configparser import ConfigParser
-
+from sign_up import register
+from datatier import web_service_get
+from sign_in import signin
+from modify_password import modify_pwd
 
 ############################################################
 #
 # classes
 #
 class User:
-
     def __init__(self, row):
         self.userid = row[0]
         self.username = row[1]
         self.pwdhash = row[2]
-
-
-class Job:
-
-    def __init__(self, row):
-        self.jobid = row[0]
-        self.userid = row[1]
-        self.status = row[2]
-        self.originaldatafile = row[3]
-        self.datafilekey = row[4]
-        self.resultsfilekey = row[5]
-
-
-###################################################################
-#
-# web_service_get
-#
-# When calling servers on a network, calls can randomly fail. 
-# The better approach is to repeat at least N times (typically 
-# N=3), and then give up after N tries.
-#
-def web_service_get(url):
-    """
-    Submits a GET request to a web service at most 3 times, since
-    web services can fail to respond e.g. to heavy user or internet
-    traffic. If the web service responds with status code 200, 400
-    or 500, we consider this a valid response and return the response.
-    Otherwise we try again, at most 3 times. After 3 attempts the
-    function returns with the last response.
-
-    Parameters
-    ----------
-    url: url for calling the web service
-
-    Returns
-    -------
-    response received from web service
-    """
-
-    try:
-        retries = 0
-
-        while True:
-            response = requests.get(url)
-
-            if response.status_code in [200, 400, 480, 481, 482, 500]:
-                #
-                # we consider this a successful call and response
-                #
-                break;
-
-            #
-            # failed, try again?
-            #
-            retries = retries + 1
-            if retries < 3:
-                # try at most 3 times
-                time.sleep(retries)
-                continue
-
-            #
-            # if get here, we tried 3 times, we give up:
-            #
-            break
-
-        return response
-
-    except Exception as e:
-        print("**ERROR**")
-        logging.error("web_service_get() failed:")
-        logging.error("url: " + url)
-        logging.error(e)
-        return None
 
 
 ############################################################
@@ -121,6 +48,7 @@ def prompt():
         print("   0 => end")
         print("   1 => sign up")
         print("   2 => sign in")
+        print("   3 => forget password")
 
         cmd = input()
 
@@ -138,77 +66,6 @@ def prompt():
         print("**ERROR: invalid input")
         print("**ERROR")
         return -1
-
-############################################################
-#
-# helper
-#
-
-def is_valid_email(email):
-    # Basic email validation (you can use a regex for more robust validation)
-    return "@" in email and "." in email
-
-############################################################
-#
-# sign up
-#
-
-
-def register(baseurl):
-    try:
-        print("Enter username>")
-        username = input().strip()  # Remove leading and trailing whitespace
-        if not username:
-            print("Error: Username cannot be empty.")
-            return
-        print("Enter email>")
-        email = input().strip()
-        if not email:
-            print("Error: Email cannot be empty.")
-            return False
-        if not is_valid_email(email):
-            print("Error: Invalid email format.")
-            return
-        print("Enter password>")
-        password = input().strip()
-        if not password:
-            print("Error: Password cannot be empty.")
-            return
-        data = {"username": username, "password": password, "email": email}
-        #
-        # call the web service:
-        #
-        api = '/signup'
-        url = baseurl + api
-        res = requests.post(url, json=data)
-        #
-        # let's look at what we got back:
-        #
-        if res.status_code == 200:  # success
-            print("Congratulations! Your account has been successfully created")
-            pass
-        else:
-            # failed:
-            # print("Failed with status code:", res.status_code)
-            # print("url: " + url)
-            if res.status_code == 400:
-                # we'll have an error message
-                body = res.json()
-                print(body["message"])
-            if res.status_code == 500:
-                # we'll have an error message
-                body = res.json()
-                print("Error message:", body["message"])
-            #
-            return
-
-    except Exception as e:
-        logging.error("**ERROR: upload() failed:")
-        logging.error("url: " + url)
-        logging.error(e)
-        return
-
-
 
 ############################################################
 # main
@@ -277,6 +134,10 @@ try:
         #
         if cmd == 1:
             register(baseurl)
+        elif cmd == 2:
+            signin(baseurl)
+        elif cmd == 3:
+            modify_pwd()
         else:
             print("** Unknown command, try again...")
         #
