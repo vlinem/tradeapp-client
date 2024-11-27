@@ -1,13 +1,13 @@
 import logging
 import requests
-
+import getpass
+from main_page import mainpage
 
 def signin(baseurl):
     try:
         print("Enter your username>")
         uname = input()
-        print("Enter your password>")
-        pwd = input()
+        pwd = getpass.getpass()
         
         data = {"username" : uname, "password" : pwd}
         
@@ -16,9 +16,12 @@ def signin(baseurl):
         
         res = requests.post(url, json=data)
         body = res.json()
+        token = body["token"]
         
         if res.status_code == 200:
-            print(body)
+            print()
+            print(f'Successfully login, {uname}')
+            mainpage(token)
             return
         else:
             raise Exception(f"Request failed with status code {res.status_code}: {body}")
