@@ -31,17 +31,17 @@ def promot():
         return -1
     
 
-def mainpage(token):
+def mainpage(token, baseurl):
     try:
         cmd = promot()
-        
-        if cmd == 1:
-            productList(token)
-        if cmd == 2:
-            cart(token)
-        if cmd == 3:
-            myOrders(token)
-        
+        while cmd != 0:
+            if cmd == 1:
+                productList(token, baseurl)
+            if cmd == 2:
+                cart(token)
+            if cmd == 3:
+                myOrders(token)
+            cmd = promot()
         return
     
     except Exception as e:
