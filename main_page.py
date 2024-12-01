@@ -38,7 +38,7 @@ def mainpage(token, baseurl):
             if cmd == 1:
                 productList(token, baseurl)
             if cmd == 2:
-                cart(token)
+                cart(token, baseurl)
             if cmd == 3:
                 myOrders(token)
             cmd = promot()
