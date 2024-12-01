@@ -21,7 +21,7 @@ def signin(baseurl):
         if res.status_code == 200:
             print()
             print(f'Successfully login, {uname}')
-            mainpage(token)
+            mainpage(token, baseurl)
             return
         else:
             raise Exception(f"Request failed with status code {res.status_code}: {body}")
