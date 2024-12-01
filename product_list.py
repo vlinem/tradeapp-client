@@ -67,18 +67,6 @@ def productList(token, baseurl):
                 print("{:<5}{:<20}${:0}".format(index, product_name, product_price))
                 print(" ")
                 index += 1
-            # if len(product_items) < 10:
-            #     print(" ")
-            #     print("Press [1-10] for detail")
-            #     answer = input()
-            #     if 1 <= int(answer) <= 10:
-            #         product_detail(token, baseurl)
-            #     else:
-            #         break
-            # print(" ")
-            # print("Press [y] go to another page or Press [1-10] for detail")
-            # answer = input()
-            #
             cmd = promot()
             if cmd == 'y':
                 currentPage += 1
@@ -106,18 +94,6 @@ def productList(token, baseurl):
                 print("** Unknown command, try again...")
 
             return
-            # if answer == 'y':
-            #     currentPage += 1
-            #     url = baseurl + api
-            #     url += "?page=" + str(currentPage)
-            #     continue
-            # elif answer.isdigit():
-            #     if 1 <= int(answer) <= 10:
-            #         product_detail(token, baseurl, product_items[int(answer)-1].product_id)
-            #     else:
-            #         print("** Unknown command, try again...")
-            # else:
-            #     print("** Unknown command, try again...")
     except Exception as e:
         print("**ERROR")
         print("**ERROR: invalid input")
