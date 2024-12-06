@@ -90,8 +90,16 @@ def productList(token, baseurl):
                     continue
                 elif int(cmd) == 0:
                     return
+                else:
+                    print("** Unknown command, try again...")
+                    print(" ")
+                    print(" ")
+                    continue
             else:
                 print("** Unknown command, try again...")
+                print(" ")
+                print(" ")
+                continue
 
             return
     except Exception as e:

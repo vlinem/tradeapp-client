@@ -137,7 +137,7 @@ try:
         elif cmd == 2:
             signin(baseurl)
         elif cmd == 3:
-            modify_pwd()
+            modify_pwd(baseurl)
         else:
             print("** Unknown command, try again...")
         #
