@@ -25,7 +25,12 @@ def register(baseurl):
         if not password:
             print("Error: Password cannot be empty.")
             return
-        data = {"username": username, "password": password, "email": email}
+        print("Enter your address, like : 633 Clark St, Evanston, IL 60208>\n")
+        address = input().strip()
+        if not address:
+            print("Error: Address cannot be empty.")
+            return
+        data = {"username": username, "password": password, "email": email, "address": address}
         #
         # call the web service:
         #

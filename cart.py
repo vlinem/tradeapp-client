@@ -25,37 +25,39 @@ def cart(token, baseurl):
                 break
             
             total_pages = body["total_pages"]
+            total_pages = 1 if total_pages == 0 else total_pages
             current_page = body["current_page"]
             cart_items = body["cart_items"]
 
-            print(f"\nThis is {current_page}/{total_pages} page")
-            print(f"{'number'.ljust(8)}{'product name'.ljust(20)}{'price'.ljust(10)}{'quantity'.ljust(10)}")
+            print(f"\nThis is {current_page}/{total_pages} page\n")
+            print(f"{'number'.ljust(10)}{'product name'.ljust(25)}{'price'.ljust(10)}{'quantity'.ljust(10)}")
 
 
             for idx, item in enumerate(cart_items, start=1):
-                print(f"{str(idx).ljust(8)}{item['product_name'].ljust(20)}{item['product_price'].ljust(10)}{str(item['quantity']).ljust(10)}")
+                print(f"\n{str(idx).ljust(10)}{item['product_name'].ljust(25)}{item['product_price'].ljust(10)}{str(item['quantity']).ljust(10)}")
 
+            print("\n\n>> Enter a command:")
                 
             if current_page < total_pages and current_page == 1:
-                print("\n[N] Next page\n[C] Checkout \n[Q] Go back to main page")
+                print("   [N] => Next page\n   [C] => Checkout \n   [Q] => Go back to main page")
                 
             elif current_page == total_pages and current_page == 1:
-                print("\n[C] Checkout \n[Q] Go back to main page")
+                print("   [C] => Checkout \n   [Q] => Go back to main page")
                 
             elif current_page < total_pages:
-                print("\n[P] Previous page\n[N] Next page\n[C] Checkout \n[Q] Go back to main page")  
+                print("   [P] => Previous page\n   [N] => Next page\n   [C] Checkout \n   [Q] => Go back to main page")  
                               
             elif current_page == total_pages:
-                print("\n[P] Previous page\n[C] Checkout \n[Q] Go back to main page")
+                print("   [P] => Previous page\n   [C] => Checkout \n   [Q] => Go back to main page")
 
-            user_input = input("\nEnter your choice: ").strip().lower()
+            user_input = input().strip().lower()
             
             if user_input == 'n':
                 current_page = current_page + 1
             elif user_input == 'p':
                 current_page = current_page - 1
             elif user_input =='c':
-                print("we are developing")
+                checkout(baseurl, token)
             elif user_input == 'q':
                 return
             else:
