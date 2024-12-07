@@ -34,7 +34,7 @@ def promot():
 
 def productList(token, baseurl):
     try:
-        api = '/product-list'
+        api = f'/product-list?token={token}'
         url = baseurl + api
         while True:
             res = web_service_get(url)
@@ -74,7 +74,7 @@ def productList(token, baseurl):
                     print("This is the Last Page")
                     continue
                 url = baseurl + api
-                url += "?page=" + str(currentPage)
+                url += "&page=" + str(currentPage)
                 continue
             if cmd == 'n':
                 currentPage -= 1
@@ -82,7 +82,7 @@ def productList(token, baseurl):
                     print("This is the First Page")
                     continue
                 url = baseurl + api
-                url += "?page=" + str(currentPage)
+                url += "&page=" + str(currentPage)
                 continue
             elif cmd.isnumeric():
                 if 1 <= int(cmd) <= 10:
