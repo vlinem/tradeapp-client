@@ -6,7 +6,7 @@ from orders import myOrders
 
 def promot():
     try:
-        print()
+        print("****** Main Page ******\n")
         print(">> Enter a command:")
         print("   0 => Log out")
         print("   1 => Show all products")
@@ -40,7 +40,7 @@ def mainpage(token, baseurl):
             if cmd == 2:
                 cart(token, baseurl)
             if cmd == 3:
-                myOrders(token)
+                myOrders(token, baseurl)
             cmd = promot()
         return
     

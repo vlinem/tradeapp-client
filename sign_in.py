@@ -5,9 +5,20 @@ from main_page import mainpage
 
 def signin(baseurl):
     try:
-        print("Enter your username>")
-        uname = input()
-        pwd = getpass.getpass()
+        while True:
+            print("Enter your username:")
+            uname = input().strip()  
+            if not uname:
+                print("Username cannot be empty. Please try again.")
+                continue  
+        
+            print("Enter your password:")
+            pwd = getpass.getpass().strip()
+            if not pwd:
+                print("Password cannot be empty. Please try again.")
+                continue  
+            break
+
         
         data = {"username" : uname, "password" : pwd}
         
@@ -20,7 +31,6 @@ def signin(baseurl):
         
         if res.status_code == 200:
             print()
-            print(f'Successfully login, {uname}')
             mainpage(token, baseurl)
             return
         else:

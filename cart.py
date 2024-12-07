@@ -3,6 +3,7 @@ from checkout import checkout
 
 def cart(token, baseurl):
     try:
+        print("****** My cart ******")
         api = '/cart_list'
         url = baseurl + api
         current_page = 1

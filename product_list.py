@@ -16,8 +16,8 @@ def promot():
         print(">> Enter a command:")
         print("   0 => Go back Main Page")
         print("   1-10 => Detail")
-        print("   y => Next Page")
-        print("   n => Previous Page")
+        print("   n => Next Page")
+        print("   p => Previous Page")
 
         cmd = input()
 
@@ -34,6 +34,7 @@ def promot():
 
 def productList(token, baseurl):
     try:
+        print("****** Product List ******\n")
         api = f'/product-list?token={token}'
         url = baseurl + api
         while True:
@@ -68,7 +69,7 @@ def productList(token, baseurl):
                 print(" ")
                 index += 1
             cmd = promot()
-            if cmd == 'y':
+            if cmd == 'n':
                 currentPage += 1
                 if currentPage > totalPages:
                     print("This is the Last Page")
@@ -76,7 +77,7 @@ def productList(token, baseurl):
                 url = baseurl + api
                 url += "&page=" + str(currentPage)
                 continue
-            if cmd == 'n':
+            if cmd == 'p':
                 currentPage -= 1
                 if currentPage < 1:
                     print("This is the First Page")
@@ -86,6 +87,7 @@ def productList(token, baseurl):
                 continue
             elif cmd.isnumeric():
                 if 1 <= int(cmd) <= 10:
+                    print("\n\n****** Detail ******\n")
                     product_detail(token, baseurl, product_items[int(cmd) - 1].product_id)
                     continue
                 elif int(cmd) == 0:
