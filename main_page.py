@@ -2,6 +2,7 @@ import logging
 from product_list import productList
 from cart import cart
 from orders import myOrders
+from recommend_list import recommend_list
 
 
 def promot():
@@ -12,6 +13,7 @@ def promot():
         print("   1 => Show all products")
         print("   2 => Go to my cart")
         print("   3 => Track my orders")
+        print("   4 => Show product recommendations")
         
         cmd = input()
         
@@ -41,6 +43,8 @@ def mainpage(token, baseurl):
                 cart(token, baseurl)
             if cmd == 3:
                 myOrders(token, baseurl)
+            if cmd == 4:
+                recommend_list(token, baseurl)
             cmd = promot()
         return
     

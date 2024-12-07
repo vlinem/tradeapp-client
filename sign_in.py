@@ -27,14 +27,15 @@ def signin(baseurl):
         
         res = requests.post(url, json=data)
         body = res.json()
-        token = body["token"]
-        
         if res.status_code == 200:
+            token = body["token"]
             print()
             mainpage(token, baseurl)
             return
         else:
-            raise Exception(f"Request failed with status code {res.status_code}: {body}")
+            print("** ERROR ***")
+            print(body["message"], "Please Try again")
+            # raise Exception(f"Request failed with status code {res.status_code}: {body}")
 
     except Exception as e:
         logging.error("**ERROR: signin() failed:")

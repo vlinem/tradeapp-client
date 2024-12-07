@@ -16,8 +16,6 @@ def promot():
         print(">> Enter a command:")
         print("   0 => Go back Main Page")
         print("   1-10 => Detail")
-        print("   n => Next Page")
-        print("   p => Previous Page")
 
         cmd = input()
 
@@ -32,12 +30,12 @@ def promot():
         return -1
 
 
-def productList(token, baseurl):
+def recommend_list(token, baseurl):
     try:
-        api = f'/product-list?token={token}'
+        api = f'/product-list-recommend?token={token}'
         url = baseurl + api
         while True:
-            print("****** Product List ******\n")
+            print("****** Product Recommendations ******\n")
             res = web_service_get(url)
             if res.status_code != 200:
                 # failed:
@@ -49,18 +47,10 @@ def productList(token, baseurl):
                 #
                 return
             body = res.json()
-            currentPage = body["currentPage"]
-            totalPages = body["totalPages"]
-            totalProducts = body["totalProducts"]
-            print("page:" + str(currentPage) + "/" + str(totalPages))
-            print(" ")
             product_items = []
             for row in body["products"]:
                 product_item = jsons.load(row, Products)
                 product_items.append(product_item)
-            #
-            # Now we can think OOP:
-            #
             index = 1
             for product_item in product_items:
                 product_name = product_item.product_name
@@ -69,25 +59,8 @@ def productList(token, baseurl):
                 print(" ")
                 index += 1
             cmd = promot()
-            if cmd == 'n':
-                currentPage += 1
-                if currentPage > totalPages:
-                    print("This is the Last Page")
-                    continue
-                url = baseurl + api
-                url += "&page=" + str(currentPage)
-                continue
-            if cmd == 'p':
-                currentPage -= 1
-                if currentPage < 1:
-                    print("This is the First Page")
-                    continue
-                url = baseurl + api
-                url += "&page=" + str(currentPage)
-                continue
-            elif cmd.isnumeric():
+            if cmd.isnumeric():
                 if 1 <= int(cmd) <= 10:
-                    print("\n\n****** Detail ******\n")
                     product_detail(token, baseurl, product_items[int(cmd) - 1].product_id)
                     continue
                 elif int(cmd) == 0:
